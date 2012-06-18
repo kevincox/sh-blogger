@@ -1,0 +1,68 @@
+<script type='text/javascript'>//<![CDATA[
+/***** USER SETTINGS *****/
+var shBloggerWidget = {
+	config: {
+		baseURL: "http://alexgorbatchev.com/pub/sh/current/scripts/",
+		shSettings: function(){
+			SyntaxHighlighter.defaults.gutter  = false;
+			SyntaxHighlighter.defaults.toolbar = false;
+		},
+	}
+};
+
+/***** DO NOT TOUCH BELOW THIS LINE *****/
+(function(){
+	var addScript = function ( name )
+	{
+		alert(name);
+		var e = document.createElement("script");
+		e.setAttribute("type", "text/javascript");
+		e.setAttribute("src", shBloggerWidget.config.baseURL+name);
+		document.lastChild.appendChild(e);
+	};
+	addScript("shCore.js");
+	addScript("shAutoloader.js");
+
+	var path = function ()
+	{
+		var args = arguments;
+		var result = [];
+
+		for(var i = 0; i < args.length; i++)
+			result.push(args[i].replace("${BASE}", shBloggerWidget.config.baseURL));
+		return result
+	};
+
+	window.addEventListener("load", function(){
+		SyntaxHighlighter.autoloader.apply(null, path(
+			'applescript            ${BASE}shBrushAppleScript.js',
+			'actionscript3 as3      ${BASE}shBrushAS3.js',
+			'bash shell             ${BASE}shBrushBash.js',
+			'coldfusion cf          ${BASE}shBrushColdFusion.js',
+			'cpp c                  ${BASE}shBrushCpp.js',
+			'c# c-sharp csharp      ${BASE}shBrushCSharp.js',
+			'css                    ${BASE}shBrushCss.js',
+			'delphi pascal          ${BASE}shBrushDelphi.js',
+			'diff patch pas         ${BASE}shBrushDiff.js',
+			'erl erlang             ${BASE}shBrushErlang.js',
+			'groovy                 ${BASE}shBrushGroovy.js',
+			'java                   ${BASE}shBrushJava.js',
+			'jfx javafx             ${BASE}shBrushJavaFX.js',
+			'js jscript javascript  ${BASE}shBrushJScript.js',
+			'perl pl                ${BASE}shBrushPerl.js',
+			'php                    ${BASE}shBrushPhp.js',
+			'text plain             ${BASE}shBrushPlain.js',
+			'py python              ${BASE}shBrushPython.js',
+			'ruby rails ror rb      ${BASE}shBrushRuby.js',
+			'sass scss              ${BASE}shBrushSass.js',
+			'scala                  ${BASE}shBrushScala.js',
+			'sql                    ${BASE}shBrushSql.js',
+			'vb vbnet               ${BASE}shBrushVb.js',
+			'xml xhtml xslt html    ${BASE}shBrushXml.js'
+		));
+		SyntaxHighlighter.config.bloggerMode = true;
+		shBloggerWidget.config.shSettings();
+		SyntaxHighlighter.all();
+	},false);
+})();
+//]]></script>
