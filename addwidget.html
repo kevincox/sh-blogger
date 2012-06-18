@@ -5,13 +5,43 @@
 	<title>Add Syntax Highlighting to Your Blogger Blog</title>
 </head>
 <body>
-	<form method="POST" action="http://www.blogger.com/add-widget">
-		<input type="hidden" name="widget.title" value="Blogger Buzz"/>
-		<input type="hidden" name="widget.content" value=""/>
-		<input type="hidden" name="widget.template" value="&lt;data:content/&gt;" />
-		<input type="hidden" name="infoUrl" value="http://buzz.blogger.com"/>
+	<form id="form" method="POST" action="http://www.blogger.com/add-widget">
+		<input type="hidden" id="widget.title"    name="widget.title" value="Syntax Highlighting"/>
+		<input type="hidden" id="widget.content"  name="widget.content" value=""/>
+		<input type="hidden" id="widget.template" name="widget.template" value="" />
+		<input type="hidden" name="infoUrl" value="https://github.com/kevincox/sh-blogger"/>
 		<!--<input type="hidden" name="logoUrl" value="http://www.blogger.com/img/icon_logo32.gif"/>-->
-		<input type="submit" name="go" value="Add Blogger Buzz Widget"/>
+		<input type="submit" id="button" name="go" value="Loading..."/>
 	</form>
+	<script type='text/javascript'>//<![CDATA[
+		var toGo = 2;
+
+		function set ( elem, script )
+		{
+			var r = new XMLHttpRequest();
+			r.open("GET", script, true);
+
+			r.onreadystatechange = function ( )
+			{
+				if ( r.readyState != 4 ) return;
+
+				if ( r.status != 200 && r.status != 0 ) // 0 is a local request.
+					alert("Error: got a "+r.status+" error when fetching "+script+".");
+
+				elem.value = r.responseText;
+
+				if ( --toGo == 0 )
+					document.getElementById("button").value = "Add Syntax Highlighting to your blog!";
+			}
+
+			r.send();
+		}
+
+		set(document.getElementById("widget.content"), "widget.html");
+		set(document.getElementById("widget.template"), "widget.xml");
+
+		//document.getElementById("widget.content").value  = getFile("widget.html");
+		//document.getElementById("widget.template").value = getFile("widget.xml");
+	//]]></script>
 </body>
 </html
