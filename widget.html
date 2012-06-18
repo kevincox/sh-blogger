@@ -17,7 +17,7 @@ var shBloggerWidget = {
 		var e = document.createElement("script");
 		e.setAttribute("type", "text/javascript");
 		e.setAttribute("src", shBloggerWidget.config.baseURL+name);
-		document.lastChild.appendChild(e);
+		document.getElementsByTagName("script")[0].parentNode.appendChild(e);
 	};
 	addScript("shCore.js");
 	addScript("shAutoloader.js");
