@@ -1,67 +1,85 @@
 <script type='text/javascript'>//<![CDATA[
+(function(){
 /***** USER SETTINGS *****/
-var shBloggerWidget = {
-	config: {
-		baseURL: "http://alexgorbatchev.com/pub/sh/current/scripts/",
+	var config = {
+		baseURL: "http://alexgorbatchev.com/pub/sh/current/",
+		loadCSS: [
+			"${BASE}styles/shCore.css",
+			"${BASE}styles/shThemeDefault.css",
+		],
 		shSettings: function(){
 			SyntaxHighlighter.defaults.gutter  = false;
 			SyntaxHighlighter.defaults.toolbar = false;
 		},
-	}
-};
+	};
 
 /***** DO NOT TOUCH BELOW THIS LINE *****/
-(function(){
+	var path = function ( path )
+	{
+		return path.replace("${BASE}", config.baseURL);
+	};
+	var pathList = function ()
+	{
+		var result = [];
+
+		for(var i = 0; i < arguments.length; i++)
+			result.push(path(arguments[i]));
+
+		return result;
+	};
+
 	var addScript = function ( name )
 	{
 		var e = document.createElement("script");
 		e.setAttribute("type", "text/javascript");
-		e.setAttribute("src", shBloggerWidget.config.baseURL+name);
-		e.defer = true;
-		document.body.appendChild(e);//insertBefore(e, s);
+		e.setAttribute("src", path(name));
+		e.setAttribute('defer', 'defer');
+		document.body.appendChild(e);
 	};
-	addScript("shCore.js");
-	addScript("shAutoloader.js");
-
-	var path = function ()
+	var addStyleSheet = function ( name )
 	{
-		var args = arguments;
-		var result = [];
-
-		for(var i = 0; i < args.length; i++)
-			result.push(args[i].replace("${BASE}", shBloggerWidget.config.baseURL));
-		return result
+		var e = document.createElement("link");
+		e.setAttribute("rel", "stylesheet");
+		e.setAttribute("type", "text/css");
+		e.setAttribute("href", path(name));
+		document.head.appendChild(e);
 	};
+
+	addScript("${BASE}scripts/shCore.js");
+	addScript("${BASE}scripts/shAutoloader.js");
+
+	for ( i in config.loadCSS )
+		addStyleSheet(config.loadCSS[i]);
 
 	window.addEventListener("load", function(){
-		SyntaxHighlighter.autoloader.apply(null, path(
-			'applescript            ${BASE}shBrushAppleScript.js',
-			'actionscript3 as3      ${BASE}shBrushAS3.js',
-			'bash shell             ${BASE}shBrushBash.js',
-			'coldfusion cf          ${BASE}shBrushColdFusion.js',
-			'cpp c                  ${BASE}shBrushCpp.js',
-			'c# c-sharp csharp      ${BASE}shBrushCSharp.js',
-			'css                    ${BASE}shBrushCss.js',
-			'delphi pascal          ${BASE}shBrushDelphi.js',
-			'diff patch pas         ${BASE}shBrushDiff.js',
-			'erl erlang             ${BASE}shBrushErlang.js',
-			'groovy                 ${BASE}shBrushGroovy.js',
-			'java                   ${BASE}shBrushJava.js',
-			'jfx javafx             ${BASE}shBrushJavaFX.js',
-			'js jscript javascript  ${BASE}shBrushJScript.js',
-			'perl pl                ${BASE}shBrushPerl.js',
-			'php                    ${BASE}shBrushPhp.js',
-			'text plain             ${BASE}shBrushPlain.js',
-			'py python              ${BASE}shBrushPython.js',
-			'ruby rails ror rb      ${BASE}shBrushRuby.js',
-			'sass scss              ${BASE}shBrushSass.js',
-			'scala                  ${BASE}shBrushScala.js',
-			'sql                    ${BASE}shBrushSql.js',
-			'vb vbnet               ${BASE}shBrushVb.js',
-			'xml xhtml xslt html    ${BASE}shBrushXml.js'
+		SyntaxHighlighter.autoloader.apply(null, pathList(
+			'applescript            ${BASE}scripts/shBrushAppleScript.js',
+			'actionscript3 as3      ${BASE}scripts/shBrushAS3.js',
+			'bash shell             ${BASE}scripts/shBrushBash.js',
+			'coldfusion cf          ${BASE}scripts/shBrushColdFusion.js',
+			'cpp c                  ${BASE}scripts/shBrushCpp.js',
+			'c# c-sharp csharp      ${BASE}scripts/shBrushCSharp.js',
+			'css                    ${BASE}scripts/shBrushCss.js',
+			'delphi pascal          ${BASE}scripts/shBrushDelphi.js',
+			'diff patch pas         ${BASE}scripts/shBrushDiff.js',
+			'erl erlang             ${BASE}scripts/shBrushErlang.js',
+			'groovy                 ${BASE}scripts/shBrushGroovy.js',
+			'java                   ${BASE}scripts/shBrushJava.js',
+			'jfx javafx             ${BASE}scripts/shBrushJavaFX.js',
+			'js jscript javascript  ${BASE}scripts/shBrushJScript.js',
+			'perl pl                ${BASE}scripts/shBrushPerl.js',
+			'php                    ${BASE}scripts/shBrushPhp.js',
+			'text plain             ${BASE}scripts/shBrushPlain.js',
+			'py python              ${BASE}scripts/shBrushPython.js',
+			'ruby rails ror rb      ${BASE}scripts/shBrushRuby.js',
+			'sass scss              ${BASE}scripts/shBrushSass.js',
+			'scala                  ${BASE}scripts/shBrushScala.js',
+			'sql                    ${BASE}scripts/shBrushSql.js',
+			'vb vbnet               ${BASE}scripts/shBrushVb.js',
+			'xml xhtml xslt html    ${BASE}scripts/shBrushXml.js'
 		));
 		SyntaxHighlighter.config.bloggerMode = true;
-		shBloggerWidget.config.shSettings();
+		config.shSettings();
 		SyntaxHighlighter.all();
 	},false);
 })();
